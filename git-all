@@ -1,0 +1,69 @@
+#!/APSshare/anaconda3/x86_64/bin/python
+
+import os
+import subprocess as sp
+
+def main(options):
+  depth = options.depth
+  args = options.args
+  
+  validArgs = ['status', 'fetch']
+  
+  # do something
+  pwd = os.getcwd()
+  
+  print("{}".format(pwd))
+
+  # find . -maxdepth 7 -type d -name ".git"
+
+  # maxdepth:
+  # 1 = pwd
+  # 2 = projects are in pwd (normal for development)
+  # 3 = projects are in subdirectory (normal for epics-motor and github forks)
+
+  completed = sp.run(['find', pwd, '-maxdepth', depth, '-type', 'd', '-name', '.git'], stdout=sp.PIPE)
+  print("returncode: {}".format(completed.returncode))
+  #!print('Have {} bytes in stdout:\n{}'.format(
+  #!  len(completed.stdout),
+  #!  completed.stdout.decode('utf-8'))
+  #!)
+  
+  # output is a new-line delimited string
+  output = completed.stdout.decode('utf-8')
+
+  lineList = output.split("\n")
+  sortedList = sorted(lineList)
+
+  for line in sortedList:
+    if line != '':
+      # print the path without the .git dir
+      project = os.path.dirname(line)
+      print(project)
+
+      if len(args) > 0 and args[0] in validArgs:
+        #completed = sp.run(['find', pwd, '-maxdepth', depth, '-type', 'd', '-name', '.git'], stdout=sp.PIPE)
+        os.chdir(project)
+        cmd = ['git',] + args
+        #!print(cmd)
+        acomp = sp.run(cmd)
+        os.chdir(pwd)
+        print()
+
+  # git status | grep -v '(use'
+
+
+if __name__ == '__main__':
+    import sys
+    import argparse
+    parser = argparse.ArgumentParser("git-all")
+      
+    parser.add_argument("-d", action="store", default="2", required=False, dest='depth',  help='max search depth (used by the find command)')
+    #!parser.add_argument("-g", action="append", default=None, required=False, dest='group',     help='Group (for filtering events)')
+    #!parser.add_argument("-i", action="store",  default=None, required=False, dest='ip',        help='IP addr (for filtering events)')
+    #!parser.add_argument("--ignore-event", action="append", default=None, required=False, dest='ignoreEvent', help='Event type to ignore (for filtering events)')
+    parser.add_argument("args", action="store", default=None, nargs=argparse.REMAINDER,  help='git command to execute in each repo')
+
+    options = parser.parse_args(sys.argv[1:])
+    print(options)
+    
+    main(options)
