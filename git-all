@@ -11,7 +11,8 @@ def main(options):
   subs = options.submodules
   listRepos = options.listRepos
   
-  validArgs = ['status', 'fetch', 'checkout', 'rebase', 'pull']
+  validArgs = ['status', 'fetch', 'checkout', 'rebase', 'pull', 'remote', 'branch', 'add', 'commit', 'mv', 'rm', 'reset']
+  expertArgs = ['push', ]
   
   if len(args) > 0 and listRepos == True:
 	  # Use an invalid git argument so only the project directories are printed
