@@ -4,6 +4,8 @@ import os
 import subprocess as sp
 
 def main(options):
+  indent = '    '
+
   depth = options.depth
   args = options.args
   
@@ -38,16 +40,20 @@ def main(options):
     if line != '':
       # print the path without the .git dir
       project = os.path.dirname(line)
-      print(project)
+      print("{} - {}".format(os.path.basename(project), project))
 
       if len(args) > 0 and args[0] in validArgs:
-        #completed = sp.run(['find', pwd, '-maxdepth', depth, '-type', 'd', '-name', '.git'], stdout=sp.PIPE)
         os.chdir(project)
+
         cmd = ['git',] + args
         #!print(cmd)
-        acomp = sp.run(cmd)
+        g_comp = sp.run(cmd, stdout=sp.PIPE)
+        g_output = g_comp.stdout.decode('utf-8')
+        # Indent the git output
+        print(indent+g_output.replace('\n', '\n'+indent))
+        #!print()
+
         os.chdir(pwd)
-        print()
 
   # git status | grep -v '(use'
 
