@@ -50,7 +50,12 @@ def main(options):
         g_comp = sp.run(cmd, stdout=sp.PIPE)
         g_output = g_comp.stdout.decode('utf-8')
         # Indent the git output
-        print(indent+g_output.replace('\n', '\n'+indent))
+        outLines = g_output.split('\n')
+        for outLine in outLines:
+          if '#   (' in outLine:
+            continue
+          else:
+            print(indent+outLine)
         #!print()
 
         os.chdir(pwd)
