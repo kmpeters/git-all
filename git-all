@@ -8,6 +8,7 @@ def main(options):
 
   depth = options.depth
   args = options.args
+  subs = options.submodules
   
   validArgs = ['status', 'fetch']
   
@@ -23,7 +24,13 @@ def main(options):
   # 2 = projects are in pwd (normal for development)
   # 3 = projects are in subdirectory (normal for epics-motor and github forks)
 
-  completed = sp.run(['find', pwd, '-maxdepth', depth, '-type', 'd', '-name', '.git'], stdout=sp.PIPE)
+  findArgs = ['find', pwd, '-maxdepth', depth, '-name', '.git']
+  
+  if subs == False:
+	  # submodules have .git files; modules have .git directories
+	  findArgs += ['-type', 'd']
+
+  completed = sp.run(findArgs, stdout=sp.PIPE)
   print("returncode: {}".format(completed.returncode))
   #!print('Have {} bytes in stdout:\n{}'.format(
   #!  len(completed.stdout),
@@ -69,7 +76,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser("git-all")
       
     parser.add_argument("-d", action="store", default="2", required=False, dest='depth',  help='max search depth (used by the find command)')
-    #!parser.add_argument("-g", action="append", default=None, required=False, dest='group',     help='Group (for filtering events)')
+    parser.add_argument("-s", action="store_true", required=False, dest='submodules',     help='include submodules')
     #!parser.add_argument("-i", action="store",  default=None, required=False, dest='ip',        help='IP addr (for filtering events)')
     #!parser.add_argument("--ignore-event", action="append", default=None, required=False, dest='ignoreEvent', help='Event type to ignore (for filtering events)')
     parser.add_argument("args", action="store", default=None, nargs=argparse.REMAINDER,  help='git command to execute in each repo')
