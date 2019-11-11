@@ -9,8 +9,13 @@ def main(options):
   depth = options.depth
   args = options.args
   subs = options.submodules
+  listRepos = options.listRepos
   
-  validArgs = ['status', 'fetch']
+  validArgs = ['status', 'fetch', 'checkout', 'rebase', 'pull']
+  
+  if len(args) > 0 and listRepos == True:
+	  # Use an invalid git argument so only the project directories are printed
+	  args[0] = 'check'
   
   # do something
   pwd = os.getcwd()
@@ -75,10 +80,9 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser("git-all")
       
-    parser.add_argument("-d", action="store", default="2", required=False, dest='depth',  help='max search depth (used by the find command)')
+    parser.add_argument("-d", action="store", default="6", required=False, dest='depth',  help='max search depth (used by the find command)')
     parser.add_argument("-s", action="store_true", required=False, dest='submodules',     help='include submodules')
-    #!parser.add_argument("-i", action="store",  default=None, required=False, dest='ip',        help='IP addr (for filtering events)')
-    #!parser.add_argument("--ignore-event", action="append", default=None, required=False, dest='ignoreEvent', help='Event type to ignore (for filtering events)')
+    parser.add_argument("-l", action="store_true",  required=False, dest='listRepos',     help='list repos')
     parser.add_argument("args", action="store", default=None, nargs=argparse.REMAINDER,  help='git command to execute in each repo')
 
     options = parser.parse_args(sys.argv[1:])
