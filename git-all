@@ -28,10 +28,10 @@ def main(options):
       print("Error: push requires the -x flag")
       sys.exit(1)
   
-  # do something
+  # Get the working directory
   pwd = os.getcwd()
   
-  print("{}".format(pwd))
+  #!print("{}".format(pwd))
 
   # find . -maxdepth 7 -type d -name ".git"
 
@@ -47,7 +47,7 @@ def main(options):
 	  findArgs += ['-type', 'd']
 
   completed = sp.run(findArgs, stdout=sp.PIPE)
-  print("returncode: {}".format(completed.returncode))
+  #!print("returncode: {}".format(completed.returncode))
   #!print('Have {} bytes in stdout:\n{}'.format(
   #!  len(completed.stdout),
   #!  completed.stdout.decode('utf-8'))
@@ -98,6 +98,6 @@ if __name__ == '__main__':
     parser.add_argument("args", action="store", default=None, nargs=argparse.REMAINDER,  help='git command to execute in each repo')
 
     options = parser.parse_args(sys.argv[1:])
-    print(options)
+    #!print(options)
     
     main(options)
