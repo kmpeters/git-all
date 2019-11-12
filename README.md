@@ -54,7 +54,6 @@ optional arguments:
 [hostname ~/synApps]$ git all fetch --unshallow
 [hostname ~/synApps]$ git all config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 [hostname ~/synApps]$ git all fetch origin
-
 ```
 
 Note: [assemble_synApps.sh](https://github.com/EPICS-synApps/support/blob/master/assemble_synApps.sh) creates a shallow clone by default.
