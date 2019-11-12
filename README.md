@@ -2,11 +2,11 @@
 
 Execute a git command on multiple repositories
 
-### Installation
+## Installation
 
 Add ``git-all`` to your ``PATH``
 
-### Usage
+## Usage
 
 When ``git-all`` is on your ``PATH``, it can be called without the hyphen:
 
@@ -25,21 +25,21 @@ optional arguments:
   -x          allow pushing to repos (expert mode)
 ```
 
-### Notes
+## Notes
 
 * The default search depth is 6
 
 * The ``-x`` flag is required to use the ``push`` command
 
-### Examples
+## Examples
 
-##### Check status of all development projects
+### Check status of all development projects
 
 ```
 [hostname ~/devel]$ git all -d 2 status
 ```
 
-##### Change all submodules of a project from detached heads to master branches
+### Change all submodules of a project from detached heads to master branches
 
 ```
 [hostname ~/motor/modules]$ git all -s status
@@ -48,9 +48,7 @@ optional arguments:
 [hostname ~/motor/modules]$ git all -s status
 ```
 
-##### Convert a shallow synApps clone to a full synApps clone
-
-[assemble_synApps.sh](https://github.com/EPICS-synApps/support/blob/master/assemble_synApps.sh) creates a shallow clone by default.
+### Convert a shallow synApps clone to a full synApps clone
 
 ```
 [hostname ~/synApps]$ git all fetch --unshallow
@@ -58,3 +56,5 @@ optional arguments:
 [hostname ~/synApps]$ git all fetch origin
 
 ```
+
+Note: [assemble_synApps.sh](https://github.com/EPICS-synApps/support/blob/master/assemble_synApps.sh) creates a shallow clone by default.
