@@ -6,6 +6,8 @@ Execute a git command on multiple repositories
 
 Add ``git-all`` to your ``PATH``
 
+Note: ``git-all`` depends on ``find`` and will only work on Linux at this time.
+
 ## Usage
 
 When ``git-all`` is on your ``PATH``, it can be called without the hyphen:
